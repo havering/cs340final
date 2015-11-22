@@ -41,7 +41,7 @@ function userLogin() {
 	$host = 'oniddb.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
-	$pw = 'yNlBHwYIyC3BdLuK';
+	$pw = '';
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -83,7 +83,7 @@ function addSoap($soap, $quant) {
 	$host = 'oniddb.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
-	$pw = 'yNlBHwYIyC3BdLuK';
+	$pw = '';
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -157,7 +157,7 @@ function addSoap($soap, $quant) {
 // displays cart using data drawn from carts db
 // adds it together for display
 function displayCart() {
-	$host = 'oniddb.cws.oregonstate.edu';
+	$host = '.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
 	$pw = 'yNlBHwYIyC3BdLuK';
@@ -259,7 +259,7 @@ function updateInv($soap, $quant) {
 	$host = 'oniddb.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
-	$pw = 'yNlBHwYIyC3BdLuK';
+	$pw = '';
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -296,7 +296,7 @@ function updateBalance($soapTotal) {
 	$host = 'oniddb.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
-	$pw = 'yNlBHwYIyC3BdLuK';
+	$pw = '';
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -326,7 +326,7 @@ function displayComments($where) {
 	$host = 'oniddb.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
-	$pw = 'yNlBHwYIyC3BdLuK';
+	$pw = '';
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
