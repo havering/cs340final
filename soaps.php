@@ -1,5 +1,5 @@
 <?php
-	ini_set('session.save_path', '/nfs/stak/students/o/ohaverd/session');
+	//ini_set('session.save_path', '/nfs/stak/students/o/ohaverd/session');
 	session_start();
 	include('imp.php');
 	
@@ -8,6 +8,7 @@
 <html>
 <head>
 	<title>Gold Hills Soapery</title>
+	
 	<style>
 		
 		a {
@@ -196,5 +197,8 @@
 </div>
 <!-- /#wrap -->
 </div>
+<?php
+	//print 'Session user is ' . $_SESSION['name'];
+?>
 </body>
 </html>

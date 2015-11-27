@@ -1,11 +1,11 @@
 <?php
-	ini_set('session.save_path', '/nfs/stak/students/o/ohaverd/session');
+	//ini_set('session.save_path', '/nfs/stak/students/o/ohaverd/session');
 	session_start();
 
 	$host = 'oniddb.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
-	$pw = '';
+	$pw = 'delete';
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {

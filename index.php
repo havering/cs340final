@@ -1,5 +1,5 @@
 <?php
-	ini_set('session.save_path', '/nfs/stak/students/o/ohaverd/session');
+	//ini_set('session.save_path', '/nfs/stak/students/o/ohaverd/session');
 	session_start();
 	// error_reporting(E_ALL);
 	// ini_set("display_errors", 1);
@@ -33,59 +33,9 @@
 <html>
 <head>
 	<title>Gold Hills Soapery</title>
-	<style>
-		body {
-			font-family: sans-serif;
-			margin-left: 0px;
-			margin-top: 0px;
-			margin-right: 0px;
-		}
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<style type="text/css">
 
-		a {
-			text-decoration: none;
-			color: black;
-		}
-
-		a:hover {
-			text-decoration: underline;
-			color: black;
-		}
-		a:visited {
-			text-decoration: underline;
-			color: black;
-		}
-
-		#navbar {
-			width: 100%;
-			height: 80px;
-			background-color: #d3d3d3;
-			background-image: url(hills.png);
-			background-repeat: no-repeat;
-			margin-top: 0px;
-			margin-left: none;
-			padding: none;
-			font-size: 14pt;
-			text-align: center;
-			line-height: 80px;
-			background: url(hills.png) no-repeat, -webkit-linear-gradient(left, #FFB547 , black); /* For Safari 5.1 to 6.0 */
-  			background: url(hills.png) no-repeat,, -o-linear-gradient(right, #FFB547, black); /* For Opera 11.1 to 12.0 */
-  			background: url(hills.png) no-repeat,, -moz-linear-gradient(right, #FFB547, black); /* For Firefox 3.6 to 15 */
-  			background: url(hills.png) no-repeat, linear-gradient(to right, #FFB547, black); /* Standard syntax */
-
-		}
-		#logine {
-			margin-left: 20%;
-			margin-right: 20%;
-		}
-		#linker {
-			text-decoration: underline;
-		}
-		#displaybal {
-			float: right;
-			color: white;
-			padding-right: 10px;
-			font-size: 12pt;
-		}
 	</style>
 </head>
 <body>

@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 	$host = 'oniddb.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
-	$pw = '';
+	$pw = 'delete';
 	
 	$mysqli = new mysqli($host, $user, $pw, $db);
 

@@ -2,12 +2,15 @@
 // error_reporting(E_ALL);
 // ini_set("display_errors", 1);
 
+// global variables to avoid repetition
+$host = 'oniddb.cws.oregonstate.edu';
+$db = 'ohaverd-db';
+$user = 'ohaverd-db';
+$pw = 'delete';
+
 // user creates login, sends POST information to db
 function userCreate() {
-	$host = 'oniddb.cws.oregonstate.edu';
-	$db = 'ohaverd-db';
-	$user = 'ohaverd-db';
-	$pw = '';
+	global $host, $user, $pw, $db;
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -38,10 +41,7 @@ function userCreate() {
 // function to log a user in if they already have a username
 // no validation here needed as ajax has done the validation prior to submit
 function userLogin() {
-	$host = 'oniddb.cws.oregonstate.edu';
-	$db = 'ohaverd-db';
-	$user = 'ohaverd-db';
-	$pw = '';
+	global $host, $user, $pw, $db;
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -80,10 +80,7 @@ function userLogin() {
 // second, if user has cart, get number of each soap already in cart
 // then, add cart items
 function addSoap($soap, $quant) {
-	$host = 'oniddb.cws.oregonstate.edu';
-	$db = 'ohaverd-db';
-	$user = 'ohaverd-db';
-	$pw = '';
+	global $host, $user, $pw, $db;
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -109,9 +106,18 @@ function addSoap($soap, $quant) {
 	// also means that no need to retrieve current cart values
 
 	if ($rows->num_rows == 0) {
-		$newer = "INSERT INTO carts (user," . $soap . ") VALUES ('" . $cartname . "', '" . $quant . "')";
+		$newer = $mysqli->prepare("INSERT INTO carts (user, {$soap}) VALUES (?, ?)");
 
-		$mysqli->query($newer);
+		if (!$newer) {
+			echo 'Newer prepared statement failed.';
+		}
+
+		$newer->bind_param('si', $cartname, $quant);
+
+		$newer->execute();
+
+		$newer->close();
+
 	}
 
 	// if rows are returned, user exists, and their cart should be updated
@@ -119,11 +125,16 @@ function addSoap($soap, $quant) {
 	// this is adding one soap at a time so only need to address value passed in via $soap
 	else {
 
-		$nowfind = "SELECT " . $soap . " FROM carts WHERE user='" . $cartname . "'";
+		$nowfind = $mysqli->prepare("SELECT {$soap} FROM carts WHERE user=?");
 
-		$getsoap = $mysqli->query($nowfind);
+		$nowfind->bind_param('s', $cartname);
 
-		while ($soaps = $getsoap->fetch_array(MYSQLI_ASSOC)) {
+		$nowfind->execute();
+
+		// what is returned is the number of soaps in the user's cart
+		$numgive = $nowfind->get_result();
+
+		while ($soaps = $numgive->fetch_assoc()) {
 			if ($soap == 'orange') {
 				$curr = $soaps['orange'];
 			}
@@ -142,12 +153,22 @@ function addSoap($soap, $quant) {
 
 		}
 
+		$nowfind->close();
+
 		$quant = $quant + $curr;
 
 
-		$existing = "UPDATE carts SET " . $soap . "=" . $quant . " WHERE user='" . $cartname . "'";
+		$existing = $mysqli->prepare("UPDATE carts SET {$soap}=? WHERE user=?");
 
-		$mysqli->query($existing);
+		if (!$existing) {
+			echo 'Existing prepare failed';
+		}
+
+		$existing->bind_param('is', $quant, $cartname);
+
+		$existing->execute();
+
+		$existing->close();
 
 	}
 
@@ -157,10 +178,7 @@ function addSoap($soap, $quant) {
 // displays cart using data drawn from carts db
 // adds it together for display
 function displayCart() {
-	$host = '.cws.oregonstate.edu';
-	$db = 'ohaverd-db';
-	$user = 'ohaverd-db';
-	$pw = 'yNlBHwYIyC3BdLuK';
+	global $host, $user, $pw, $db;
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -169,15 +187,19 @@ function displayCart() {
 
 	$cartname = $_SESSION['username'];
 
-	$finder = "SELECT * FROM carts WHERE user='" . $cartname . "'";
+	$finder = $mysqli->prepare("SELECT * FROM carts WHERE user=?");
 
 	if (!$finder) {
 		echo 'Prepare failed';
 	}
 
-	$getsoaps = $mysqli->query($finder);
+	$finder->bind_param('s', $cartname);
 
-	while ($soaps = $getsoaps->fetch_array(MYSQLI_ASSOC)) {
+	$finder->execute();
+
+	$getsoaps = $finder->get_result();
+
+	while ($soaps = $getsoaps->fetch_assoc()) {
 		$numOrange = $soaps['orange'];
 		$numSwirl = $soaps['swirl'];
 		$numAnt = $soaps['antique'];
@@ -256,10 +278,7 @@ function displayCart() {
 
 // function to update the database with the inventory when a user adds soaps to their cart
 function updateInv($soap, $quant) {
-	$host = 'oniddb.cws.oregonstate.edu';
-	$db = 'ohaverd-db';
-	$user = 'ohaverd-db';
-	$pw = '';
+	global $host, $user, $pw, $db;
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -293,10 +312,7 @@ function updateInv($soap, $quant) {
 
 // updates balance each time a new soap is added to the cart
 function updateBalance($soapTotal) {
-	$host = 'oniddb.cws.oregonstate.edu';
-	$db = 'ohaverd-db';
-	$user = 'ohaverd-db';
-	$pw = '';
+	global $host, $user, $pw, $db;
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
@@ -323,21 +339,26 @@ function updateBalance($soapTotal) {
 // function to display the comments for each soap
 // passed in the page that is attempting to have the comments displayed
 function displayComments($where) {
-	$host = 'oniddb.cws.oregonstate.edu';
-	$db = 'ohaverd-db';
-	$user = 'ohaverd-db';
-	$pw = '';
+	global $host, $user, $pw, $db;
 
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	if ($mysqli->connect_errno) {
 		echo 'Failed to connect to MySQLi: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error;
 	}
 
-	$findcomments = "SELECT * FROM comments WHERE name='". $where . "'";
+	$findcomments = $mysqli->prepare("SELECT * FROM comments WHERE name=?");
 
-	$finder = $mysqli->query($findcomments);
+	if (!$findcomments) {
+		echo 'Findcomments prepare failed.';
+	}
 
-	while ($rows = $finder->fetch_array(MYSQLI_ASSOC)) {
+	$findcomments->bind_param('s', $where);
+
+	$findcomments->execute();
+
+	$finder = $findcomments->get_result();
+
+	while ($rows = $finder->fetch_assoc()) {
 		echo '<p><b>' . $rows['user'] . '</b>';
 		echo '<br>' . $rows['comment'];
 		echo '<hr>';

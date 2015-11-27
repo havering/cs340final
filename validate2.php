@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 	$host = 'oniddb.cws.oregonstate.edu';
 	$db = 'ohaverd-db';
 	$user = 'ohaverd-db';
-	$pw = '';
+	$pw = 'delete';
 	
 	$mysqli = new mysqli($host, $user, $pw, $db);
 
@@ -18,9 +18,13 @@ ini_set('display_errors', 1);
 		$name = mysqli_real_escape_string($mysqli, $_POST['username']);
 		$pass = mysqli_real_escape_string($mysqli, $_POST['password']);
 
-		$query = "SELECT * FROM users WHERE user='" . $name . "' AND password='" . $pass . "'";
+		$query = $mysqli->prepare("SELECT * FROM users WHERE user=? AND password=?");
 
-		$rows = $mysqli->query($query);
+		$query->bind_param('ss', $name, $pass);
+
+		$query->execute();
+
+		$rows = $query->get_result();
 
 		if ($rows->num_rows == 0) {
  			echo "Invalid username or password. Please try again.";
@@ -29,6 +33,6 @@ ini_set('display_errors', 1);
 			echo '<p><input type="submit" value="Submit">';
 		}
 
-		$rows->close();
+		$query->close();
 	}
 ?>

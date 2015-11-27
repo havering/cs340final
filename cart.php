@@ -1,5 +1,5 @@
 <?php
-	ini_set('session.save_path', '/nfs/stak/students/o/ohaverd/session');
+	//ini_set('session.save_path', '/nfs/stak/students/o/ohaverd/session');
 	session_start();
 	error_reporting(E_ALL);
 	include('imp.php');
@@ -149,6 +149,7 @@
 <center><h3>Cart</h3></center>
 <div id="incart">
 <?php
+	//print 'Session user is ' . $_SESSION['name'];
 	if (isset($_SESSION['name'])) {
 		echo '<p>Welcome, ' . $name . ', here you may review the items in your cart.';
 		echo '<p>If you would like to update your cart, please return to the soaps page and select a new number of soaps to purchase.';
@@ -167,6 +168,11 @@
 	displayCart();
 ?>
 </table>
+<br><br>
+<center>
+	<form action="deleteall.php" method="POST">
+	<input type="submit" value="Empty Cart"></form>
+</center>
 </div>
 </div>
 </body>
