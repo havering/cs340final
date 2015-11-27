@@ -346,7 +346,7 @@ function displayComments($where) {
 		echo 'Failed to connect to MySQLi: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error;
 	}
 
-	$findcomments = $mysqli->prepare("SELECT * FROM comments WHERE name=?");
+	$findcomments = $mysqli->prepare("SELECT comments.comment, users.name FROM comments INNER JOIN user_comments ON user_comments.comid = comments.id INNER JOIN users ON users.id = user_comments.usid WHERE comments.name=?");
 
 	if (!$findcomments) {
 		echo 'Findcomments prepare failed.';
@@ -359,7 +359,7 @@ function displayComments($where) {
 	$finder = $findcomments->get_result();
 
 	while ($rows = $finder->fetch_assoc()) {
-		echo '<p><b>' . $rows['user'] . '</b>';
+		echo '<p><b>' . $rows['name'] . '</b>';
 		echo '<br>' . $rows['comment'];
 		echo '<hr>';
 	}
