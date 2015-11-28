@@ -346,7 +346,7 @@ function displayComments($where) {
 		echo 'Failed to connect to MySQLi: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error;
 	}
 
-	$findcomments = $mysqli->prepare("SELECT comments.comment, users.name FROM comments INNER JOIN user_comments ON user_comments.comid = comments.id INNER JOIN users ON users.id = user_comments.usid WHERE comments.name=?");
+	$findcomments = $mysqli->prepare("SELECT comments.comment, users.name, users.user FROM comments INNER JOIN user_comments ON user_comments.comid = comments.id INNER JOIN users ON users.id = user_comments.usid WHERE comments.name=?");
 
 	if (!$findcomments) {
 		echo 'Findcomments prepare failed.';
@@ -361,6 +361,10 @@ function displayComments($where) {
 	while ($rows = $finder->fetch_assoc()) {
 		echo '<p><b>' . $rows['name'] . '</b>';
 		echo '<br>' . $rows['comment'];
+		if ($rows['user'] == $_SESSION['username']) {
+			echo '<input type="hidden" name="wherefrom" id="wherefrom" value="' . $where . '">
+			<br><input type="submit" value="Delete Comment">';
+		}
 		echo '<hr>';
 	}
 }
