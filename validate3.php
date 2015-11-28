@@ -37,7 +37,7 @@ ini_set('display_errors', 1);
 		// next we need to figure out if the user is trying to order more than the inventory holds
 		if ($initotal < $order) {
 			echo '<p>Sorry, we don\'t have that many in our stock.';
-			echo '<p>Please choose a smaller number to order.';
+			echo '<p>Please choose a maximum of ' . $initotal .' bars of this soap.';
 		}
 		else {
 			echo '<input type="submit" value="Add to cart">';
