@@ -361,10 +361,6 @@ function displayComments($where) {
 	while ($rows = $finder->fetch_assoc()) {
 		echo '<p><b>' . $rows['name'] . '</b>';
 		echo '<br>' . $rows['comment'];
-		if ($rows['user'] == $_SESSION['username']) {
-			echo '<input type="hidden" name="wherefrom" id="wherefrom" value="' . $where . '">
-			<br><input type="submit" value="Delete Comment">';
-		}
 		echo '<hr>';
 	}
 }
