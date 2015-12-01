@@ -4,7 +4,7 @@
 	<title>Create New Account</title>
   <meta http-equiv="X-UA-Compatible" content="IE=8"></meta> 
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
       $("#username").blur(function() {
